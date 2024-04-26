@@ -27,7 +27,9 @@ def states():
 
 
 @app_views.route(
-    "/states/<state_id>", methods=["GET", "DELETE", "PUT"], strict_slashes=False
+    "/states/<state_id>",
+    methods=["GET", "DELETE", "PUT"],
+    strict_slashes=False,
 )
 def get_state(state_id):
     """Returns an object by id"""
