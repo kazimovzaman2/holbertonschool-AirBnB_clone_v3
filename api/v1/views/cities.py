@@ -61,13 +61,13 @@ def city_by_state(state_id):
     elif request.method == "POST":
         city_json = request.get_json(silent=True)
         if city_json is None:
-            abort(400, "Not a JSON")
+            abort(400, "No JSON data provided")
 
         if not storage.get("State", str(state_id)):
             abort(404)
 
         if "name" not in city_json:
-            abort(400, "Missing name")
+            abort(400, "Missing name in JSON data")
 
         city_json["state_id"] = state_id
 
