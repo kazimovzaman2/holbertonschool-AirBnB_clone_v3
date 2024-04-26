@@ -80,4 +80,4 @@ def cities(city_id):
                 setattr(request_body, key, value)
         storage.save()
 
-        return jsonify(request_body.to_dict()), 200
+        return jsonify(city_obj.to_dict()), 200
