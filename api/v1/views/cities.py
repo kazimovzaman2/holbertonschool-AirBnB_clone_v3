@@ -77,7 +77,7 @@ def cities(city_id):
 
         for key, value in request_body.items():
             if key not in ["id", "state_id", "created_at", "updated_at"]:
-                setattr(request_body, key, value)
+                setattr(city_obj, key, value)
         storage.save()
 
         return jsonify(city_obj.to_dict()), 200
