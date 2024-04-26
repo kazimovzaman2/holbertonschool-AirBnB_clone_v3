@@ -6,26 +6,6 @@ from models import storage
 from models.city import City
 
 
-@app_views.route("/cities", methods=["GET", "POST"], strict_slashes=False)
-def cities():
-    """Return cities"""
-    if request.method == "GET":
-        cities = storage.all(City).values()
-        cities_list = []
-        for city in cities:
-            cities_list.append(city.to_dict())
-        return jsonify(cities_list)
-    elif request.method == "POST":
-        city_data = request.get_json(silent=True)
-        if not city_data:
-            abort(400, "Not a JSON")
-        elif "name" not in city_data:
-            abort(400, "Missing name")
-        new_city = City(**city_data)
-        new_city.save()
-        return jsonify(new_city.to_dict()), 201
-
-
 @app_views.route(
     "/cities/<city_id>",
     methods=["GET", "DELETE", "PUT"],
@@ -61,19 +41,39 @@ def get_city(city_id):
 
 @app_views.route(
     "/states/<state_id>/cities",
-    methods=["GET"],
+    methods=["GET", "POST"],
     strict_slashes=False,
 )
 def city_by_state(state_id):
     """
     Retrieves the list of cities by state
     """
-    city_list = []
-    state_obj = storage.get("State", state_id)
+    if request.method == "GET":
+        city_list = []
+        state_obj = storage.get("State", state_id)
 
-    if state_obj is None:
-        abort(404)
-    for obj in state_obj.cities:
-        city_list.append(obj.to_json())
+        if state_obj is None:
+            abort(404)
+        for obj in state_obj.cities:
+            city_list.append(obj.to_json())
 
-    return jsonify(city_list)
+        return jsonify(city_list)
+    elif request.method == "POST":
+        city_json = request.get_json(silent=True)
+        if city_json is None:
+            abort(400, "Not a JSON")
+
+        if not storage.get("State", str(state_id)):
+            abort(404)
+
+        if "name" not in city_json:
+            abort(400, "Missing name")
+
+        city_json["state_id"] = state_id
+
+        new_city = City(**city_json)
+        new_city.save()
+        resp = jsonify(new_city.to_json())
+        resp.status_code = 201
+
+        return resp
