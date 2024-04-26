@@ -15,6 +15,12 @@ def close_storage(exception):
     storage.close()
 
 
+@app.errorhandler(404)
+def not_found(error):
+    """Return a 404 error"""
+    return {"error": "Not found"}, 404
+
+
 if __name__ == "__main__":
     host = getenv("HBNB_API_HOST", "0.0.0.0")
     port = getenv("HBNB_API_PORT", 5000)
