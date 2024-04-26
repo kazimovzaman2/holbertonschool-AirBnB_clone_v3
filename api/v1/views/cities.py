@@ -57,3 +57,23 @@ def get_city(city_id):
                 setattr(city, key, value)
         storage.save()
         return jsonify(city.to_dict()), 200
+
+
+@app_views.route(
+    "/states/<state_id>/cities",
+    methods=["GET"],
+    strict_slashes=False,
+)
+def city_by_state(state_id):
+    """
+    Retrieves the list of cities by state
+    """
+    city_list = []
+    state_obj = storage.get("State", state_id)
+
+    if state_obj is None:
+        abort(404)
+    for obj in state_obj.cities:
+        city_list.append(obj.to_json())
+
+    return jsonify(city_list)
