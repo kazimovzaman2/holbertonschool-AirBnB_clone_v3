@@ -57,7 +57,7 @@ def cities(city_id):
 
         return jsonify(city.to_dict())
     elif request.method == "DELETE":
-        city = storage.get(City, city)
+        city = storage.get(City, city_id)
 
         if city is None:
             abort(404)
