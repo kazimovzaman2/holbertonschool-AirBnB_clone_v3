@@ -18,7 +18,7 @@ def states():
     elif request.method == "POST":
         state_data = request.get_json()
         if not state_data:
-            abort(404, "Not a JSON")
+            abort(400, "Not a JSON")
         elif "name" not in state_data:
             abort(400, "Missing name")
         new_state = State(**state_data)
