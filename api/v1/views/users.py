@@ -25,8 +25,10 @@ def user():
         request_body = request.get_json(silent=True)
         if not request_body:
             abort(400, "Not a JSON")
-        elif "name" not in request_body:
-            abort(400, "Missing name")
+        elif "email" not in request_body:
+            abort(400, "Missing email")
+        elif "password" not in request_body:
+            abort(400, "Missing password")
         new_user = User(**request_body)
         new_user.save()
         return jsonify(new_user.to_dict()), 201
