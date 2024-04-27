@@ -11,7 +11,7 @@ from models.user import User
     methods=["GET", "POST"],
     strict_slashes=False,
 )
-def amenity():
+def user():
     """
     Retrieves the list of users
     """
@@ -37,7 +37,7 @@ def amenity():
     methods=["GET", "DELETE", "PUT"],
     strict_slashes=False,
 )
-def get_amenity(user_id):
+def get_user(user_id):
     """Returns an object by id"""
     if request.method == "GET":
         user = storage.get(User, user_id)
