@@ -14,23 +14,19 @@ from models.amenity import Amenity
     methods=["GET"],
     strict_slashes=False,
 )
-def amenity_by_place(place_id):
+def get_place_amenities(place_id):
     """
-    get all amenities of a place
-    :param place_id: amenity id
-    :return: all amenities
+    Retrieves the list of amenities by place
     """
-    fetched_obj = storage.get("Place", str(place_id))
+    amenity_list = []
+    place_obj = storage.get(Place, place_id)
 
-    all_amenities = []
-
-    if fetched_obj is None:
+    if place_obj is None:
         abort(404)
+    for obj in place_obj.amenities:
+        amenity_list.append(obj.to_json())
 
-    for obj in fetched_obj.amenities:
-        all_amenities.append(obj.to_json())
-
-    return jsonify(all_amenities)
+    return jsonify(amenity_list)
 
 
 @app_views.route(
