@@ -23,7 +23,7 @@ def place_by_city(city_id):
 
         if city_obj is None:
             abort(404)
-        for obj in city_obj.cities:
+        for obj in city_obj.places:
             place_list.append(obj.to_dict())
 
         return jsonify(place_list)
