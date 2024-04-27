@@ -24,7 +24,7 @@ def get_place_amenities(place_id):
     if place_obj is None:
         abort(404)
     for obj in place_obj.amenities:
-        amenity_list.append(obj.to_dict())
+        amenity_list.append(obj.to_json())
 
     return jsonify(amenity_list)
 
