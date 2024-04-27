@@ -14,7 +14,7 @@ from models.amenity import Amenity
     methods=["GET"],
     strict_slashes=False,
 )
-def review_by_place(place_id):
+def get_place_amenities(place_id):
     """
     Retrieves the list of amenities by place
     """
@@ -28,12 +28,13 @@ def review_by_place(place_id):
 
     return jsonify(amenity_list)
 
+
 @app_views.route(
     "/places/<place_id>/amenities/<amenity_id>",
     methods=["DELETE", "POST"],
     strict_slashes=False,
 )
-def review_by_place(place_id, amenity_id):
+def link_place_amenity(place_id, amenity_id):
     """
     Deletes an amenity by place
     """
